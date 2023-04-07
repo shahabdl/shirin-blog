@@ -38,7 +38,6 @@ export default function NavBar({ className = "" }: PropsType) {
     let width = item.offsetWidth;
     let x = item.offsetLeft;
     let y = item.offsetTop + item.offsetHeight;
-    console.log(x, width);
     let underLine = document.getElementById("navbar-underline");
     if (underLine) {
       underLine.style.left = String(x) + "px";

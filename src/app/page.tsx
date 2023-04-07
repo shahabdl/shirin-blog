@@ -2,6 +2,8 @@ import { Inter } from "next/font/google";
 import Slider from "../components/main-page/slider";
 import SearchBox from "shb/components/main-page/search-box";
 import RecipeGridView from "shb/components/recipe-grid-view";
+import NewsletterJoinBox from "shb/components/main-page/newsletter-join-box";
+import { Suspense } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,36 +28,39 @@ export default function Home() {
       />
       <SearchBox />
       <h1>shirin blog</h1>
-      <RecipeGridView
-        largeScreenRows={[
-          ["big", "small", "small"],
-          ["small", "medium", "medium", "small"],
-          ["medium", "medium", "medium"],
-          ["small", "small", "small", "small", "small", "small"],
-          ["small", "small", "small", "small", "small", "small"],
-        ]}
-        mediumScreenRows={[
-          ["medium", "small", "small"],
-          ["small", "medium", "small", "small"],
-          ["medium", "medium", "small"],
-          ["small", "small", "small", "small", "small"],
-          ["small", "small", "small", "small", "small"],
-        ]}
-        smallScreenRows={[
-          ["small", "small"],
-          ["small", "medium", "small"],
-          ["medium", "medium"],
-          ["small", "small", "small", "small"],
-          ["small", "small", "small", "small"],
-        ]}
-        mobileScreenRows={[
-          ["small"],
-          ["small"],
-          ["small"],
-          ["small"],
-          ["small"],
-        ]}
-      />
+      <Suspense fallback={<div>loading!</div>}>
+        <RecipeGridView
+          largeScreenRows={[
+            ["big", "small", "small"],
+            ["small", "medium", "medium"],
+            ["medium", "medium", "medium"],
+            ["small", "small", "small", "small", "small", "small"],
+            ["small", "small", "small", "small", "small", "small"],
+          ]}
+          mediumScreenRows={[
+            ["medium", "small", "small"],
+            ["small", "medium", "small"],
+            ["medium", "medium", "small"],
+            ["small", "small", "small", "small", "small"],
+            ["small", "small", "small", "small", "small"],
+          ]}
+          smallScreenRows={[
+            ["medium", "medium"],
+            ["small", "medium", "small"],
+            ["medium", "medium"],
+            ["small", "small", "small", "small"],
+            ["small", "small", "small", "small"],
+          ]}
+          mobileScreenRows={[
+            ["medium"],
+            ["medium"],
+            ["medium"],
+            ["medium"],
+            ["medium"],
+          ]}
+        />
+      </Suspense>
+      <NewsletterJoinBox />
     </main>
   );
 }

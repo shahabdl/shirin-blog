@@ -15,7 +15,7 @@ interface PropsType {
 const Slide = ({ image, title, description }: SlideItemType) => {
   useEffect(() => {}, []);
   return (
-    <div className="bg-white fade-in-delay-0">
+    <div className="bg-[#f7f7f7] fade-in-delay-0">
       <div
         style={{ backgroundImage: `url(${image})` }}
         className="h-[calc(100vh-60px)] bg-no-repeat bg-right"

@@ -10,8 +10,8 @@ import {
 
 const Footer = () => {
   return (
-    <div className="h-[50px] flex items-center px-[15%]">
-      <div className="mr-auto font-light text-sm">
+    <div className="min-h-[50px] flex items-center px-[15%] max-md:grid max-md:gap-3 py-3">
+      <div className="mr-auto font-light text-sm max-md:mr-0 max-md:justify-self-center max-md:text-center">
         Copyright © shinshin {new Date().getFullYear()}
       </div>
       <div className="flex gap-4 items-center justify-center">
@@ -20,7 +20,7 @@ const Footer = () => {
         <Link href="/contact" className="text-xs font-light hover:font-normal">CONTACT</Link>
         <Link href="/about" className="text-xs font-light hover:font-normal">ABOUT</Link>
       </div>
-      <div className="col-span-2 flex gap-2 items-center ml-auto">
+      <div className="flex gap-2 items-center ml-auto max-md:ml-0 max-md:justify-self-center max-md:text-center">
         <Link href="#">
           <AiOutlineInstagram className="fill-zinc-700 stroke-none" />
         </Link>

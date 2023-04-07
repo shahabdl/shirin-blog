@@ -20,7 +20,8 @@ const Slide = ({ image, title, description }: SlideItemType) => {
         style={{ backgroundImage: `url(${image})` }}
         className="h-[calc(100vh-60px)] bg-no-repeat bg-right"
       >
-        <div className="w-[400px] absolute left-[10%] top-[50%] translate-y-[-50%]">
+        <div className="absolute top-0 left-0 w-full h-full bg-[rgba(255,255,255,0.4)] hidden max-lg:block"></div>
+        <div className="w-[400px] absolute left-[10%] top-[50%] translate-y-[-50%] max-sm:w-[60%] max-lg:left-[50%] max-lg:translate-x-[-50%]">
           <h2 className="text-4xl font-normal fade-in-delay-3 mb-5">{title}</h2>
           <p className="font-light text-justify fade-in-delay-5">{description}</p>
         </div>
@@ -75,7 +76,8 @@ const Slider = ({ slides }: PropsType) => {
         items-center text-white
         cursor-pointer
         hover:scale-125
-        transition-transform"
+        transition-transform
+        max-md:left-[15px]"
       >
         <MdNavigateNext className="rotate-180" />
       </div>
@@ -95,7 +97,8 @@ const Slider = ({ slides }: PropsType) => {
         text-white
         cursor-pointer
         hover:scale-125
-        transition-transform"
+        transition-transform
+        max-md:right-[15px]"
       >
         <MdNavigateNext />
       </div>

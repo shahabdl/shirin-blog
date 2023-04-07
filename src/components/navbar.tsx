@@ -49,7 +49,7 @@ export default function NavBar({ className = "" }: PropsType) {
 
   const mouseLeaveHandler = (e: React.MouseEvent<HTMLElement>) => {
     let underLine = document.getElementById("navbar-underline");
-    if(underLine){
+    if (underLine) {
       underLine.style.opacity = "0";
     }
   };
@@ -58,9 +58,9 @@ export default function NavBar({ className = "" }: PropsType) {
     <div className="min-h-[60px] z-50">
       <div
         ref={navbarRef}
-        className={`grid grid-cols-12 grid-flow-col px-5 py-4 ${className} transition-colors left-0 w-full not-sticky-navbar  z-50`}
+        className={`grid grid-cols-12 grid-flow-col px-5 py-4 ${className} transition-colors left-0 w-full not-sticky-navbar z-50 max-md:block text-center`}
       >
-        <div className="col-span-2 flex gap-2 items-center">
+        <div className="col-span-2 flex gap-2 items-center max-md:col-span-1 max-md:w-full">
           <Link href="#">
             <AiOutlineInstagram className="fill-zinc-700 stroke-none" />
           </Link>
@@ -77,7 +77,7 @@ export default function NavBar({ className = "" }: PropsType) {
             <AiOutlineReddit className="fill-zinc-700 stroke-none" />
           </Link>
         </div>
-        <div className="flex bg-red gap-5 items-center justify-center font-light col-span-8 col-start-3">
+        <div className="flex bg-red gap-5 items-center justify-center font-light col-span-8 col-start-3 max-md:col-span-1  max-md:w-full">
           <div
             id="navbar-underline"
             className="absolute bg-black h-[2px] top-[40px] opacity-0 transition-all"
@@ -116,7 +116,7 @@ export default function NavBar({ className = "" }: PropsType) {
             </Link>
           </div>
         </div>
-        <div className="col-span-2 ml-auto ">
+        <div className="col-span-2 ml-auto max-md:col-span-1 max-md:ml-0 max-md:text-center max-md:grid max-md:items-center max-md:justify-center">
           <Link href="/user/login">
             <div className="flex gap-2 items-center">
               <span>

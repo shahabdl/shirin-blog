@@ -62,7 +62,7 @@ const mockData: RecipeDataType[] = [
     image: "item-1.jpg",
     title: "Doon Doon Mirza",
     description:
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
     createdTime: "10 min ago",
     difficulty: "Easy",
   },
@@ -90,14 +90,16 @@ const mockData: RecipeDataType[] = [
   {
     image: "item-5.jpg",
     title: "Recipe 5",
-    description: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eveniet molestias velit temporibus accusamus at quod magnam tempore aliquam quisquam doloribus perferendis eaque praesentium, quia modi, minima vitae dolores. Quos, facilis?",
+    description:
+      "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eveniet molestias velit temporibus accusamus at quod magnam tempore aliquam quisquam doloribus perferendis eaque praesentium, quia modi, minima vitae dolores. Quos, facilis?",
     createdTime: "12 min ago",
     difficulty: "Hard",
   },
   {
     image: "item-6.jpg",
     title: "Recipe 6",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
     createdTime: "12 min ago",
     difficulty: "Hard",
   },
@@ -114,14 +116,18 @@ const RecipeGridView = ({
   const [recipes, setRescipes] = useState<RecipeDataType[]>([]);
 
   const screenResizeHandler = () => {
-    if (window.screen.width >= SCREEN_SIZE.LARGE) {
+    if (window.screen.width > SCREEN_SIZE.MEDIUM) {
+      console.log("Large");
       setWindowSize(SCREEN_SIZE.LARGE);
-    } else if (window.screen.width >= SCREEN_SIZE.MEDIUM) {
-      setWindowSize(SCREEN_SIZE.MEDIUM);
-    } else if (window.screen.width >= SCREEN_SIZE.SMALL) {
-      setWindowSize(SCREEN_SIZE.SMALL);
-    } else if (window.screen.width >= SCREEN_SIZE.MOBILE) {
+    } else if (window.screen.width <= SCREEN_SIZE.MOBILE) {
+      console.log("Medium");
       setWindowSize(SCREEN_SIZE.MOBILE);
+    } else if (window.screen.width <= SCREEN_SIZE.SMALL) {
+      console.log("Small");
+      setWindowSize(SCREEN_SIZE.SMALL);
+    } else if (window.screen.width <= SCREEN_SIZE.MEDIUM) {
+      console.log("Mobile");
+      setWindowSize(SCREEN_SIZE.MEDIUM);
     }
   };
 
@@ -168,32 +174,38 @@ const RecipeGridView = ({
     for (let row in preferedRows) {
       let colRatios = calculateColumneRatio(preferedRows[row]);
       let cols: React.ReactNode[] = [];
-      for (let col in preferedRows[row]) {
-        cols.push(
-          <div style={{ width: colRatios[col] + "%" }}>
-            {index < recipes.length ? (
-              <RecipeViewBox
-                type={preferedRows[row][col]}
-                data={recipes[index]}
-              />
-            ) : (
-              ""
-            )}
+      if (index < recipes.length) {
+        for (let col in preferedRows[row]) {
+          if (index < recipes.length) {
+            cols.push(
+              <div style={{ width: colRatios[col] + "%" }}>
+                {index < recipes.length ? (
+                  <RecipeViewBox
+                    type={preferedRows[row][col]}
+                    data={recipes[index]}
+                  />
+                ) : (
+                  ""
+                )}
+              </div>
+            );
+          } else {
+            break;
+          }
+          index++;
+        }
+        tempRowsElement.push(
+          <div key={row} className="w-full flex gap-2">
+            {cols}
           </div>
         );
-
-        index++;
       }
-      tempRowsElement.push(
-        <div key={row} className="w-full flex gap-2">
-          {cols}
-        </div>
-      );
     }
     setRowsElement([...tempRowsElement]);
   }, [widnowSize, recipes]);
 
   useEffect(() => {
+    screenResizeHandler();
     window.addEventListener("resize", screenResizeHandler);
     () => {
       window.removeEventListener("resize", screenResizeHandler);
@@ -203,7 +215,7 @@ const RecipeGridView = ({
   useEffect(() => {
     setRescipes([...mockData]);
   }, []);
-  return <div className={`px-[100px] grid gap-2`}>{rowsElement}</div>;
+  return <div className={`grid gap-2`}>{rowsElement}</div>;
 };
 
 export default RecipeGridView;

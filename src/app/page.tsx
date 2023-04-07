@@ -28,7 +28,7 @@ export default function Home() {
       />
       <SearchBox />
       <h1>shirin blog</h1>
-      <Suspense fallback={<div>loading!</div>}>
+      <div className="px-[100px] max-sm:px-[20px] grid gap-5">
         <RecipeGridView
           largeScreenRows={[
             ["big", "small", "small"],
@@ -45,11 +45,11 @@ export default function Home() {
             ["small", "small", "small", "small", "small"],
           ]}
           smallScreenRows={[
-            ["medium", "medium"],
-            ["small", "medium", "small"],
-            ["medium", "medium"],
-            ["small", "small", "small", "small"],
-            ["small", "small", "small", "small"],
+            ["medium", "small"],
+            ["small", "medium"],
+            ["medium", "small"],
+            ["small", "small", "small"],
+            ["small", "small", "small"],
           ]}
           mobileScreenRows={[
             ["medium"],
@@ -57,10 +57,11 @@ export default function Home() {
             ["medium"],
             ["medium"],
             ["medium"],
+            ["medium"],
           ]}
         />
-      </Suspense>
-      <NewsletterJoinBox />
+        <NewsletterJoinBox />
+      </div>
     </main>
   );
 }

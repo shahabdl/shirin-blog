@@ -1,0 +1,13 @@
+.sticky-navbar {
+  position: fixed;
+  background-color: rgba(255, 255, 255, 0.7);
+  top: 0;
+  backdrop-filter: blur(5px);
+  border-bottom: 1px solid #eee
+}
+
+.not-sticky-navbar {
+  top: -100px;
+  position: inherit;
+  background-color: white;
+}

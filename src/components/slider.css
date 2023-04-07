@@ -1,0 +1,20 @@
+.fade-in-delay-3 {
+  opacity: 0;
+  animation: fadeIn 0.5s ease-in-out 0.3s forwards;
+}
+.fade-in-delay-5 {
+    opacity: 0;
+    animation: fadeIn 0.5s ease-in-out 0.5s forwards;
+  }
+.fade-in-delay-0 {
+    opacity: 0;
+    animation: fadeIn 0.5s ease-in-out 0s forwards;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

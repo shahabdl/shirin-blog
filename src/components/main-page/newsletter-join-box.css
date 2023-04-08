@@ -1,0 +1,9 @@
+.newsletter-background {
+  background-image: url(/home/newsletter-bg-wide.webp);
+}
+
+@media screen and (max-width: 1536) {
+  .newsletter-background {
+    background-image: url(/home/newsletter-bg.png);
+  }
+}

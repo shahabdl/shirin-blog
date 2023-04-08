@@ -1,5 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
+import { AiOutlineClockCircle } from "react-icons/ai";
+import { TbChefHat } from "react-icons/tb";
 import { RecipeDataType } from "./recipe-grid-view";
 import { getFirstFewWords } from "./utilities/functions";
 
@@ -63,12 +65,24 @@ const RecipeViewBox = ({ type, data }: PropsType) => {
           />
         </div>
         <div className={`p-4 ${descriptionTypeSpecificClasses}`}>
+          <div className="flex">
+            <div className="flex gap-2">
+              <AiOutlineClockCircle color="#888" width={10} />
+              <span className="font-light text-xs text-zinc-600">
+                {data.cookTime?.toUpperCase()}
+              </span>
+            </div>
+            <div className="flex gap-2 ml-auto">
+              <TbChefHat color="#888" />
+              <span className="font-light text-xs text-zinc-600">
+                {data.difficulty}
+              </span>
+            </div>
+          </div>
           <h2 className="font-noraml text-xl">{data.title}</h2>
           {type !== "small" ? (
             <p className="mt-3 font-light text-md">
-              {data.description
-                ? descriptionContent + "..."
-                : ""}
+              {data.description ? descriptionContent + "..." : ""}
             </p>
           ) : (
             ""

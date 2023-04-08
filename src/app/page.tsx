@@ -3,7 +3,6 @@ import Slider from "../components/main-page/slider";
 import SearchBox from "shb/components/main-page/search-box";
 import RecipeGridView from "shb/components/recipe-grid-view";
 import NewsletterJoinBox from "shb/components/main-page/newsletter-join-box";
-import { Suspense } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -28,7 +27,7 @@ export default function Home() {
       />
       <SearchBox />
       <h1>shirin blog</h1>
-      <div className="px-[100px] max-sm:px-[20px] grid gap-5">
+      <div className="px-[100px] max-lg:px-[20px] grid gap-5">
         <RecipeGridView
           largeScreenRows={[
             ["big", "small", "small"],

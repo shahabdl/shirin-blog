@@ -1,8 +1,9 @@
+import './newsletter-join-box.css';
+
 const NewsletterJoinBox = () => {
   return (
     <div
-      className="bg-white shadow-md px-4 py-9 text-center grid items-center justify-center gap-4 bg-no-repeat"
-      style={{ backgroundImage: "url(/home/newsletter-bg.png)" }}
+      className="bg-white shadow-md px-4 py-9 text-center grid items-center justify-center gap-4 bg-no-repeat newsletter-background"
     >
       <div>
         <h3 className="font-normal text-2xl">Join our Newsletter</h3>

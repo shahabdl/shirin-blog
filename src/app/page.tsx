@@ -26,8 +26,8 @@ export default function Home() {
         ]}
       />
       <SearchBox />
-      <h1>shirin blog</h1>
       <div className="px-[100px] max-lg:px-[20px] grid gap-5">
+        <h1 className="text-3xl text-center mb-4 font-light">Most Recent Recipes!</h1>
         <RecipeGridView
           largeScreenRows={[
             ["big", "small", "small"],

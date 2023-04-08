@@ -1,18 +1,24 @@
 import Link from "next/link";
 import Image from "next/image";
-import { AiOutlineClockCircle } from "react-icons/ai";
+import {
+  AiOutlineClockCircle,
+  AiOutlineHeart,
+  AiFillHeart,
+} from "react-icons/ai";
 import { TbChefHat } from "react-icons/tb";
 import { RecipeDataType } from "./recipe-grid-view";
 import { getFirstFewWords } from "./utilities/functions";
+import React, { useState } from "react";
 
 export type RecipeViewBoxType = "small" | "medium" | "big";
 
 interface PropsType {
   type: RecipeViewBoxType;
   data: RecipeDataType;
+  likeHandler: (e: React.MouseEvent<HTMLDivElement>) => void;
 }
 
-const RecipeViewBox = ({ type, data }: PropsType) => {
+const RecipeViewBox = ({ type, data, likeHandler }: PropsType) => {
   let containerTypeSpecificClasses = "";
   let imageTypeSpecificClasses = "";
   let descriptionTypeSpecificClasses = "";
@@ -31,6 +37,7 @@ const RecipeViewBox = ({ type, data }: PropsType) => {
       break;
     case "medium":
       containerTypeSpecificClasses = "min-h-[300px]";
+      descriptionTypeSpecificClasses = "h-[50%]";
       imageTypeSpecificClasses = "h-[50%] w-full";
       if (data.description)
         descriptionContent = getFirstFewWords(data.description, 20);
@@ -39,12 +46,14 @@ const RecipeViewBox = ({ type, data }: PropsType) => {
       break;
     case "small":
       containerTypeSpecificClasses = "min-h-[300px]";
+      descriptionTypeSpecificClasses = "h-[50%]";
       imageTypeSpecificClasses = "h-[50%] w-full";
       imageWidth = 300;
       imageHeight = 300;
       break;
     default:
       containerTypeSpecificClasses = "min-h-[300px]";
+      descriptionTypeSpecificClasses = "h-[50%]";
       imageTypeSpecificClasses = "h-[50%] w-full";
       imageWidth = 300;
       imageHeight = 300;
@@ -65,7 +74,7 @@ const RecipeViewBox = ({ type, data }: PropsType) => {
           />
         </div>
         <div className={`p-4 ${descriptionTypeSpecificClasses}`}>
-          <div className="flex">
+          <div className="flex mb-2">
             <div className="flex gap-2">
               <AiOutlineClockCircle color="#888" width={10} />
               <span className="font-light text-xs text-zinc-600">
@@ -79,14 +88,45 @@ const RecipeViewBox = ({ type, data }: PropsType) => {
               </span>
             </div>
           </div>
-          <h2 className="font-noraml text-xl">{data.title}</h2>
-          {type !== "small" ? (
-            <p className="mt-3 font-light text-md">
-              {data.description ? descriptionContent + "..." : ""}
-            </p>
-          ) : (
-            ""
-          )}
+          <div className="h-[calc(100%-75px)]">
+            <h2 className="font-noraml text-xl">{data.title}</h2>
+            {type !== "small" ? (
+              <p className="mt-1 font-light text-md">
+                {data.description ? descriptionContent + "..." : ""}
+              </p>
+            ) : (
+              ""
+            )}
+          </div>
+          <div className="flex items-center">
+            <div className="flex gap-2 items-center">
+              <div className="w-[50px] h-[50px] overflow-hidden rounded-full bg-red-300">
+                <Image
+                  src={data.author.image}
+                  width={50}
+                  height={50}
+                  alt={`${data.author.name} profile image`}
+                />
+              </div>
+              <p className="text-sm font-light">
+                {data.author.name.toUpperCase()}
+              </p>
+            </div>
+            <div
+              className="ml-auto text-center grid justify-items-center items-center"
+              onClick={likeHandler}
+              data-index={data.id}
+            >
+              {data.userLiked ? (
+                <AiFillHeart color="rgb(220,48,48)" />
+              ) : (
+                <AiOutlineHeart color="#999" />
+              )}
+              <p className="text-xs font-light text-zinc-600">
+                {data.likes + (data.likes > 1 ? " Likes" : " Like")}
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </Link>

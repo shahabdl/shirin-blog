@@ -19,12 +19,17 @@ interface PropsType {
 }
 
 const RecipeViewBox = ({ type, data, likeHandler }: PropsType) => {
+  const [liked, setLiked] = useState(data.userLiked);
   let containerTypeSpecificClasses = "";
   let imageTypeSpecificClasses = "";
   let descriptionTypeSpecificClasses = "";
   let imageWidth = 150;
   let imageHeight = 150;
   let descriptionContent = "";
+  const likeClickHandler = (e: React.MouseEvent<HTMLDivElement>) => {
+    setLiked(!liked);
+    likeHandler(e);
+  };
   switch (type) {
     case "big":
       containerTypeSpecificClasses = "min-h-[400px] flex";
@@ -114,10 +119,10 @@ const RecipeViewBox = ({ type, data, likeHandler }: PropsType) => {
             </div>
             <div
               className="ml-auto text-center grid justify-items-center items-center"
-              onClick={likeHandler}
+              onClick={likeClickHandler}
               data-index={data.id}
             >
-              {data.userLiked ? (
+              {liked ? (
                 <AiFillHeart color="rgb(220,48,48)" />
               ) : (
                 <AiOutlineHeart color="#999" />

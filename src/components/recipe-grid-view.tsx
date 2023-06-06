@@ -165,29 +165,22 @@ const RecipeGridView = ({
   const [recipes, setRescipes] = useState<RecipeDataType[]>([]);
   const recipeLikeHandler = (e: React.MouseEvent<HTMLDivElement>) => {
     let index = e.currentTarget.getAttribute("data-index");
-    console.log(index);   
     if (index) {
       if (mockData[Number(index)].userLiked) {
         mockData[Number(index)].userLiked = true;
       } else {
         mockData[Number(index)].userLiked = false;
       }
-      console.log(mockData[Number(index)].userLiked);   
-
     }
   };
   const screenResizeHandler = () => {
     if (window.screen.width > SCREEN_SIZE.MEDIUM) {
-      console.log("Large");
       setWindowSize(SCREEN_SIZE.LARGE);
     } else if (window.screen.width <= SCREEN_SIZE.MOBILE) {
-      console.log("Medium");
       setWindowSize(SCREEN_SIZE.MOBILE);
     } else if (window.screen.width <= SCREEN_SIZE.SMALL) {
-      console.log("Small");
       setWindowSize(SCREEN_SIZE.SMALL);
     } else if (window.screen.width <= SCREEN_SIZE.MEDIUM) {
-      console.log("Mobile");
       setWindowSize(SCREEN_SIZE.MEDIUM);
     }
   };

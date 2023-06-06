@@ -3,31 +3,32 @@ import Slider from "../components/main-page/slider";
 import SearchBox from "shb/components/main-page/search-box";
 import RecipeGridView from "shb/components/recipe-grid-view";
 import NewsletterJoinBox from "shb/components/main-page/newsletter-join-box";
+import apolloClient from "shb/apollo/apollo-client";
+import sliderQueries from "shb/apollo/queries/slider";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export default function Home() {
+const getSliderData = async () => {
+  const { error, data } = await apolloClient.query({
+    query: sliderQueries.Queries.getSlider,
+    variables: { page: "home" },
+    fetchPolicy: "no-cache"
+  });
+  console.log(data.getSlider.slide)
+  return { error, data };
+};
+
+export default async function Home() {
+  const { error, data } = await getSliderData();
+
   return (
     <main>
-      <Slider
-        slides={[
-          {
-            image: "./slides/slide-1.webp",
-            title: "Green veggies with butter",
-            description:
-              "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-          },
-          {
-            image: "./slides/slide-1.webp",
-            title: "test title",
-            description:
-              "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-          },
-        ]}
-      />
+      <Slider slides={[...data.getSlider.slide]} />
       <SearchBox />
       <div className="px-[100px] max-lg:px-[20px] grid gap-5">
-        <h1 className="text-3xl text-center mb-4 font-light">Most Recent Recipes!</h1>
+        <h1 className="text-3xl text-center mb-4 font-light">
+          Most Recent Recipes!
+        </h1>
         <RecipeGridView
           largeScreenRows={[
             ["big", "small", "small"],

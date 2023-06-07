@@ -13,9 +13,22 @@ const GetSlider = gql`
     }
   }
 `;
+const GetGridViewStructure = gql`
+  query GetGridViewStructure($page: String) {
+    getGridViewStructure(page: $page) {
+      id
+      page
+      structureLarge
+      structureMedium
+      structureSmall
+      structureMobile
+    }
+  }
+`
 const sliderQueries = {
   Queries: {
     getSlider: GetSlider,
+    getGridViewStructure: GetGridViewStructure,
   },
 };
 

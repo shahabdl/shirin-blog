@@ -1,6 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
 import RecipeViewBox, { RecipeViewBoxType } from "./recipe-item-view";
+import apolloClient from "shb/apollo/apollo-client";
+import recipesQueries from "shb/apollo/queries/recipe";
 
 export const SCREEN_SIZE = {
   MOBILE: 640,
@@ -21,10 +23,14 @@ export interface RecipeDataType {
   image: string;
   title: string;
   description?: string;
-  cookTime?: string;
+  timing: {
+    preperation: number;
+    cookTime: number;
+    additional: number;
+  };
   difficulty: string;
-  likes: number;
-  userLiked: boolean;
+  likesCount: number;
+  likedByThisUser: boolean;
   author: {
     name: string;
     image: string;
@@ -64,96 +70,6 @@ const calculateColumneRatio = (row: RecipeViewBoxType[]) => {
   return colRatios;
 };
 
-let mockData: RecipeDataType[] = [
-  {
-    id: 0,
-    image: "item-1.jpg",
-    title: "Doon Doon Mirza",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-    cookTime: "1 hour 30 minutes",
-    difficulty: "Hard",
-    likes: 52,
-    userLiked: false,
-    author: {
-      name: "shirin",
-      image: "/authors/shirin-par.jpg",
-    },
-  },
-  {
-    id: 1,
-    image: "item-2.jpg",
-    title: "Recipe 2",
-    description: "Lorem ipsum",
-    cookTime: "12 minutes",
-    difficulty: "Hard",
-    likes: 0,
-    userLiked: false,
-    author: {
-      name: "shirin",
-      image: "/authors/shirin-par.jpg",
-    },
-  },
-  {
-    id: 2,
-    image: "item-3.jpg",
-    title: "Recipe 3",
-    description: "Lorem ipsum",
-    cookTime: "12 minutes",
-    difficulty: "Hard",
-    likes: 12,
-    userLiked: false,
-    author: {
-      name: "shirin",
-      image: "/authors/shirin-par.jpg",
-    },
-  },
-  {
-    id: 3,
-    image: "item-4.jpg",
-    title: "Recipe 4",
-    description: "Lorem ipsum",
-    cookTime: "35 minutes",
-    difficulty: "Hard",
-    likes: 14,
-    userLiked: false,
-    author: {
-      name: "shirin",
-      image: "/authors/shirin-par.jpg",
-    },
-  },
-  {
-    id: 4,
-    image: "item-5.jpg",
-    title: "Recipe 5",
-    description:
-      "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eveniet molestias velit temporibus accusamus at quod magnam tempore aliquam quisquam doloribus perferendis eaque praesentium, quia modi, minima vitae dolores. Quos, facilis?",
-    cookTime: "42 minutes",
-    difficulty: "Hard",
-    likes: 121,
-    userLiked: true,
-    author: {
-      name: "shirin",
-      image: "/authors/shirin-par.jpg",
-    },
-  },
-  {
-    id: 5,
-    image: "item-6.jpg",
-    title: "Recipe 6",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-    cookTime: "12 minutes",
-    difficulty: "Hard",
-    likes: 2,
-    userLiked: false,
-    author: {
-      name: "shirin",
-      image: "/authors/shirin-par.jpg",
-    },
-  },
-];
-
 const RecipeGridView = ({
   largeScreenRows,
   mediumScreenRows,
@@ -163,16 +79,18 @@ const RecipeGridView = ({
   const [widnowSize, setWindowSize] = useState(SCREEN_SIZE.LARGE);
   const [rowsElement, setRowsElement] = useState<React.ReactNode[]>([]);
   const [recipes, setRescipes] = useState<RecipeDataType[]>([]);
+
   const recipeLikeHandler = (e: React.MouseEvent<HTMLDivElement>) => {
     let index = e.currentTarget.getAttribute("data-index");
     if (index) {
-      if (mockData[Number(index)].userLiked) {
-        mockData[Number(index)].userLiked = true;
+      if (recipes[Number(index)].likedByThisUser) {
+        recipes[Number(index)].likedByThisUser = true;
       } else {
-        mockData[Number(index)].userLiked = false;
+        recipes[Number(index)].likedByThisUser = false;
       }
     }
   };
+
   const screenResizeHandler = () => {
     if (window.screen.width > SCREEN_SIZE.MEDIUM) {
       setWindowSize(SCREEN_SIZE.LARGE);
@@ -185,6 +103,9 @@ const RecipeGridView = ({
     }
   };
 
+  /**
+   * this useEffect calculates grid items width and heights;
+   */
   useEffect(() => {
     const getCorrectRowByScreenSize = () => {
       let preferedRow = largeScreenRows;
@@ -235,13 +156,12 @@ const RecipeGridView = ({
               <div style={{ width: colRatios[col] + "%" }}>
                 {index < recipes.length ? (
                   <RecipeViewBox
+                    key={recipes[index].id}
                     type={preferedRows[row][col]}
                     data={recipes[index]}
                     likeHandler={recipeLikeHandler}
                   />
-                ) : (
-                  ""
-                )}
+                ) : null}
               </div>
             );
           } else {
@@ -259,6 +179,7 @@ const RecipeGridView = ({
     setRowsElement([...tempRowsElement]);
   }, [widnowSize, recipes]);
 
+  /** this useEffect adds and event listener for window resize */
   useEffect(() => {
     screenResizeHandler();
     window.addEventListener("resize", screenResizeHandler);
@@ -267,8 +188,19 @@ const RecipeGridView = ({
     };
   }, []);
 
+  /**
+   * here we fetch recipe data
+   */
   useEffect(() => {
-    setRescipes([...mockData]);
+    const fetchData = async () => {
+      const { error, data } = await apolloClient.query({
+        query: recipesQueries.Queries.getRecipes,
+        variables: { first: 10, offset: 0 },
+      });
+      setRescipes([...data.Recipes]);
+      return { error, data };
+    };
+    fetchData();
   }, []);
   return <div className={`grid gap-2`}>{rowsElement}</div>;
 };

@@ -4,7 +4,7 @@ import SearchBox from "shb/components/main-page/search-box";
 import RecipeGridView from "shb/components/recipe-grid-view";
 import NewsletterJoinBox from "shb/components/main-page/newsletter-join-box";
 import apolloClient from "shb/apollo/apollo-client";
-import sliderQueries from "shb/apollo/queries/slider";
+import sliderQueries from "shb/apollo/queries/ui";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,8 +26,13 @@ const getGridViewStructure = async () => {
 };
 
 export default async function Home() {
-  const { data: sliderData } = await getSliderData();
+  const { data: sliderData, error: sliderError} = await getSliderData();
   const { data: gridViewStructure } = await getGridViewStructure();
+  if(sliderError){
+    return(
+      <div>somthing went wrong!</div>
+    )
+  }
   return (
     <main>
       <Slider slides={[...sliderData.getSlider.slide]} />

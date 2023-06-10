@@ -19,7 +19,19 @@ interface PropsType {
 }
 
 const RecipeViewBox = ({ type, data, likeHandler }: PropsType) => {
-  const [liked, setLiked] = useState(data.userLiked);
+  const [liked, setLiked] = useState(data.likedByThisUser);
+
+  const sumTiming = () => {
+    let sum =
+      data.timing.additional + data.timing.cookTime + data.timing.preperation;
+    const hours = Math.floor(sum / 60);
+    const minutes = sum - hours * 60;
+    let timingString = `${hours ? hours + " H " : ""}${
+      minutes ? minutes + " M" : ""
+    }`;
+    return timingString;
+  };
+
   let containerTypeSpecificClasses = "";
   let imageTypeSpecificClasses = "";
   let descriptionTypeSpecificClasses = "";
@@ -29,6 +41,9 @@ const RecipeViewBox = ({ type, data, likeHandler }: PropsType) => {
   const likeClickHandler = (e: React.MouseEvent<HTMLDivElement>) => {
     setLiked(!liked);
     likeHandler(e);
+  };
+  const imageLoader = ({ src }: { src: string }) => {
+    return `http://localhost:5000/recipes/${data.image}`;
   };
   switch (type) {
     case "big":
@@ -71,7 +86,8 @@ const RecipeViewBox = ({ type, data, likeHandler }: PropsType) => {
       >
         <div className={`overflow-hidden ${imageTypeSpecificClasses}`}>
           <Image
-            src={`/recipes/${data.image}`}
+            loader={imageLoader}
+            src={`http://localhost:5000/recipes/${data.image}`}
             alt={data.title}
             width={imageWidth}
             height={imageHeight}
@@ -83,7 +99,7 @@ const RecipeViewBox = ({ type, data, likeHandler }: PropsType) => {
             <div className="flex gap-2">
               <AiOutlineClockCircle color="#888" width={10} />
               <span className="font-light text-xs text-zinc-600">
-                {data.cookTime?.toUpperCase()}
+                {sumTiming()}
               </span>
             </div>
             <div className="flex gap-2 ml-auto">
@@ -107,7 +123,7 @@ const RecipeViewBox = ({ type, data, likeHandler }: PropsType) => {
             <div className="flex gap-2 items-center">
               <div className="w-[50px] h-[50px] overflow-hidden rounded-full bg-red-300">
                 <Image
-                  src={data.author.image}
+                  src={`http://localhost:5000/users/${data.author.image}`}
                   width={50}
                   height={50}
                   alt={`${data.author.name} profile image`}
@@ -127,8 +143,8 @@ const RecipeViewBox = ({ type, data, likeHandler }: PropsType) => {
               ) : (
                 <AiOutlineHeart color="#999" />
               )}
-              <p className="text-xs font-light text-zinc-600">
-                {data.likes + (data.likes > 1 ? " Likes" : " Like")}
+              <p className="text-xs font-light text-zinc-600 min-w-max">
+                {data.likesCount + (data.likesCount > 1 ? " Likes" : " Like")}
               </p>
             </div>
           </div>

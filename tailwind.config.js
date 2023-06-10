@@ -7,8 +7,14 @@ module.exports = {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      backgroundImage: {
+        "login-image": "url('/auth/login.webp')",
+      },
+      lineHeight: {
+        0: '0px',
+      },
+    },
   },
   plugins: [],
-}
-
+};

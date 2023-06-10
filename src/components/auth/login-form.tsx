@@ -14,15 +14,16 @@ import FormCheckbox from "./formCheckbox";
 
 const LoginForm = () => {
   const submitLogin = (
-    values: { email: string; password: string },
+    values: { email: string; password: string; remember: boolean },
     {
       setSubmitting,
     }: FormikHelpers<{
       email: string;
       password: string;
+      remember: boolean;
     }>
   ) => {
-    console.log(values.email);
+    console.log(values.remember);
     setSubmitting(false);
   };
 
@@ -31,7 +32,7 @@ const LoginForm = () => {
       <div className="w-3/5">
         <h1 className="text-4xl font-light mb-8">LOGIN</h1>
         <Formik
-          initialValues={{ email: "", password: "" }}
+          initialValues={{ email: "", password: "", remember: false }}
           validationSchema={Yup.object({
             email: Yup.string()
               .email("Invalid email address")
@@ -52,7 +53,7 @@ const LoginForm = () => {
                   <AiOutlineUser />
                 </FormInput>
               </div>
-              <div className="mb-12">
+              <div className="mb-6">
                 <FormInput
                   name="password"
                   id="password"
@@ -62,9 +63,9 @@ const LoginForm = () => {
                   <AiOutlineLock />
                 </FormInput>
               </div>
-              <FormCheckbox name="remember">
-                Remember Me!
-              </FormCheckbox>
+              <div className="mb-8">
+                <FormCheckbox name="remember">Remember Me!</FormCheckbox>
+              </div>
               <button
                 type="submit"
                 className="w-full bg-red-400 font-light py-2 hover:bg-red-500 transition-colors duration-[0.3s]"

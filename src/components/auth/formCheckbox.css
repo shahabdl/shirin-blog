@@ -1,0 +1,19 @@
+.checkbox {
+  position: relative;
+  overflow: hidden;
+}
+.checkbox:before {
+  content: "";
+  background-color: rgb(243, 113, 113);
+  width: 160%;
+  height: 160%;
+  position: absolute;
+  bottom: -80%;
+  left: -80%;
+  border-radius: 50%;
+  scale: 0;
+  transition: scale 0.15s ease-in-out;
+}
+.checked.checkbox:before {
+  scale: 2;
+}

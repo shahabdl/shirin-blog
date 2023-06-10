@@ -1,4 +1,3 @@
-import { ErrorMessage, Field, Form, Formik, FormikHelpers } from "formik";
 import Image from "next/image";
 import Link from "next/link";
 import LoginForm from "shb/components/auth/login-form";
@@ -10,8 +9,8 @@ const Login = () => {
           <Image
             src="/auth/login.webp"
             alt="a man trying to login in phone"
-            width={300}
-            height={480}
+            width={261}
+            height={405}
             className="m-0 p-0 leading-0 w-[60%]"
           />
           <div className="text-center text-white font-light text-2xl">
